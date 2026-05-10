@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = (cpf, senha) => {
-    if (cpf === "abc" && senha === "bolinhas") {
+    if (cpf === "123" && senha === "abcBolinhas") {
       setIsAuthenticated(true);
       sessionStorage.setItem("loginRealizado", "true");
       navigate("/home");
@@ -33,4 +33,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);

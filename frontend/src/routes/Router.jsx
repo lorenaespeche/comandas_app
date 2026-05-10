@@ -8,14 +8,10 @@ import RestrictedRoute from "./RestrictedRoute";
 // Os componentes das páginas são carregados de forma assíncrona usando React.lazy.
 // Suspense + lazy() dividem o código em chunks separados, melhorando o desempenho.
 const Dashboard = lazy(() => import("../pages/Dashboard"));
-
-
-// remover comentário depois
-//const FuncionarioList = lazy(() => import("../pages/FuncionarioList"));
-//const FuncionarioForm = lazy(() => import("../pages/FuncionarioForm"));
-//const ClienteList = lazy(() => import("../pages/ClienteList"));
-//const ClienteForm = lazy(() => import("../pages/ClienteForm"));
-
+const FuncionarioList = lazy(() => import("../pages/FuncionarioList"));
+const FuncionarioForm = lazy(() => import("../pages/FuncionarioForm"));
+const ClienteList = lazy(() => import("../pages/ClienteList"));
+const ClienteForm = lazy(() => import("../pages/ClienteForm"));
 
 const ProdutoList = lazy(() => import("../pages/ProdutoList"));
 const ProdutoForm = lazy(() => import("../pages/ProdutoForm"));
@@ -46,18 +42,12 @@ const AppRoutes = () => {
         {/* Rotas protegidas - somente se estiver logado */}
         <Route path="/home" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/produtos" element={<PrivateRoute><ProdutoList /></PrivateRoute>} />
-        <Route path="/produto" element={<PrivateRoute><ProdutoForm /></PrivateRoute>} />
-
-        
-        {/* 
-        
-        remover comentário depois
-        
+        <Route path="/produto" element={<PrivateRoute><ProdutoForm /></PrivateRoute>} />        
         <Route path="/funcionarios" element={<PrivateRoute><FuncionarioList /></PrivateRoute>} />
         <Route path="/funcionario" element={<PrivateRoute><FuncionarioForm /></PrivateRoute>} />
         <Route path="/clientes" element={<PrivateRoute><ClienteList /></PrivateRoute>} />
-        <Route path="/cliente" element={<PrivateRoute><ClienteForm /></PrivateRoute>} />*/}
-
+        <Route path="/cliente" element={<PrivateRoute><ClienteForm /></PrivateRoute>} />
+        
         {/* Rota para páginas não encontradas */}
         <Route path="*" element={<NotFound />} />
       </Routes>
