@@ -53,20 +53,12 @@ export const AuthProvider = ({ children }) => {
 
         return true;
       } else {
-        // Emite evento para SnackbarGlobal
-        window.dispatchEvent(new CustomEvent('showSnackbar', {
-          detail: { message: result.error, severity: 'error' }
-        }));
-
+        alert(result.error || 'CPF ou senha inválidos!');
         return false;
       }
     } catch (error) {
       console.error('Erro no login:', error);
-
-      window.dispatchEvent(new CustomEvent('showSnackbar', {
-        detail: { message: 'Erro ao conectar com o servidor', severity: 'error' }
-      }));
-
+      alert('Erro ao conectar com o servidor');
       return false;
     } finally {
       setLoading(false);

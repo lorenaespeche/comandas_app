@@ -48,7 +48,7 @@ export const authService = {
     } catch (error) {
       return {
         success: false,
-        error: error.response?.data?.message || 'Erro ao realizar login',
+        error: error.response?.data?.message || 'CPF ou senha inválidos',
       };
     }
   },
