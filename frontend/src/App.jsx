@@ -1,38 +1,36 @@
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, CssBaseline, Box } from '@mui/material';
-import { theme } from './theme';
-import { AuthProvider } from './context/AuthContext';
-import Navbar from './components/common/Navbar';
-import AppRoutes from './routes/Router';
-import { useAuth } from './context/AuthContext';
-
-// Componente interno para acessar o contexto de auth
-const AppLayout = () => {
-  const { isAuthenticated } = useAuth();
-
-  return (
-    <>
-      <Navbar />
-      {isAuthenticated ? (
-        // Páginas protegidas: com container e margem
-        <Box sx={{ mt: { xs: 2, sm: 3, md: 4 }, mb: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2 } }}>
-          <AppRoutes />
-        </Box>
-      ) : (
-        // Login: tela cheia, sem container
-        <AppRoutes />
-      )}
-    </>
-  );
-};
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { Container, ThemeProvider, CssBaseline } from "@mui/material";
+import { theme } from "./theme"; // estilos globais
+import Navbar from "./components/common/Navbar"; // componente reutilizável de navegação
+import SnackbarGlobal from "./components/common/Snackbar"; // componente global de notificações
+import AppRoutes from "./routes/Router"; // rotas da aplicação
 
 function App() {
   return (
+    // aplica o tema global ao aplicativo - Material UI
     <ThemeProvider theme={theme}>
+      {/* normaliza estilos CSS */}
       <CssBaseline />
+
+      {/* BrowserRouter é o roteador principal que gerencia as rotas da aplicação */}
       <BrowserRouter>
+        {/* O AuthProvider envolve toda a aplicação, permitindo que os componentes filhos acessem o contexto de autenticação */}
         <AuthProvider>
-          <AppLayout />
+
+          {/* Navbar é o componente de navegação que contém os links para as diferentes páginas da aplicação */}
+          <Navbar />
+
+          {/* SnackbarGlobal para notificações em toda aplicação */}
+          <SnackbarGlobal />
+
+          {/* Container é um componente do Material-UI que fornece um layout responsivo e centralizado */}
+          <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+            
+            {/* AppRoutes é o componente que contém as rotas da aplicação, definindo quais componentes devem ser renderizados em cada rota */}
+            <AppRoutes />
+
+          </Container>
         </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
