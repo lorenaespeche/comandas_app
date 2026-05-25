@@ -6,6 +6,8 @@ import { FiberNew } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import PageLayout from '../components/common/PageLayout';
 import ActionButtons from '../components/common/ActionButtons';
+import { getGrupoInfo } from '../constants/userGroups';
+import { useMasks } from '../hooks/useMasks';
 
 const funcionarios = [
   { id: 1, nome: 'Zé', cpf: '123', matricula: '7001', grupo: '1', telefone: '(49) 9 9999-0001' },
@@ -13,14 +15,11 @@ const funcionarios = [
   { id: 3, nome: 'Lorena', cpf: '789', matricula: '7003', grupo: '1', telefone: '(49) 9 9999-0003' },
 ];
 
-const grupoColors = {
-  admin: 'error',
-  caixa: 'warning',
-  garcom: 'info',
-};
-
 const FuncionarioList = () => {
   const navigate = useNavigate();
+
+  // Hook de máscaras
+  const { applyCpfMask, applyPhoneMask } = useMasks();
 
   const handleView = (f) => console.log('Visualizar:', f);
   const handleEdit = (f) => navigate(`/funcionario/${f.id}`);
@@ -55,12 +54,12 @@ const FuncionarioList = () => {
                 <TableRow key={f.id} hover>
                   <TableCell>{f.id}</TableCell>
                   <TableCell sx={{ fontWeight: 500 }}>{f.nome}</TableCell>
-                  <TableCell>{f.cpf}</TableCell>
+                  <TableCell>{applyCpfMask(f.cpf)}</TableCell>
                   <TableCell>{f.matricula}</TableCell>
                   <TableCell>
                     <Chip
-                      label={f.grupo}
-                      color={grupoColors[f.grupo] || 'default'}
+                      label={getGrupoInfo(f.grupo).label}
+                      color={getGrupoInfo(f.grupo).color}
                       size="small"
                     />
                   </TableCell>
@@ -84,12 +83,16 @@ const FuncionarioList = () => {
                   <Typography variant="h6" sx={{ fontSize: '1rem', fontWeight: 600 }}>{f.nome}</Typography>
                   <Typography variant="body2" color="text.secondary">ID: {f.id}</Typography>
                 </Box>
-                <Chip label={f.grupo} color={grupoColors[f.grupo] || 'default'} size="small" />
+                <Chip
+                  label={getGrupoInfo(f.grupo).label}
+                  color={getGrupoInfo(f.grupo).color}
+                  size="small"
+                />
               </Box>
               <Divider sx={{ mb: 1.5 }} />
-              <Typography variant="body2" color="text.secondary">CPF: <strong>{f.cpf}</strong></Typography>
+              <Typography variant="body2" color="text.secondary">CPF: <strong>{applyCpfMask(f.cpf)}</strong></Typography>
               <Typography variant="body2" color="text.secondary">Matrícula: <strong>{f.matricula}</strong></Typography>
-              <Typography variant="body2" color="text.secondary">Telefone: <strong>{f.telefone}</strong></Typography>
+              <Typography variant="body2" color="text.secondary">Telefone: <strong>{applyPhoneMask(f.telefone)}</strong></Typography>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                 <ActionButtons item={f} onView={handleView} onEdit={handleEdit} onDelete={handleDelete} />
               </Box>

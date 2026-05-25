@@ -3,6 +3,7 @@ import { TextField, Button, Box, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PageLayout from '../components/common/PageLayout';
 import useValidationRules from '../hooks/useValidationRules';
+import UniqueValidator, { useFieldValidation } from '../components/common/UniqueValidator';
 
 const grupos = ['1', '2', '3'];
 
@@ -20,9 +21,30 @@ const maskPhone = (v) => v
   .slice(0, 16);
 
 const FuncionarioForm = () => {
-  const { control, handleSubmit, formState: { errors }, setValue } = useForm();
+  const { control, handleSubmit, formState: { errors }, setValue, reset } = useForm();
   const validationRules = useValidationRules();
   const navigate = useNavigate();
+
+  // Hook de validação de CPF reutilizável
+  const { dialog: cpfDialog, validateField: validateCpf, closeDialog, clearField } = useFieldValidation(funcionarioService, id, 'checkCpfExists');
+
+  // Funções do diálogo de CPF existente
+  const handleDialogCancel = () => {
+    closeDialog();
+    clearField();
+    // Limpa o campo CPF
+    reset((prev) => ({ ...prev, cpf: '' }));
+  };
+
+  const handleDialogView = (funcionario) => {
+    closeDialog();
+    navigate(`/funcionario/view/${funcionario.id}`);
+  };
+
+  const handleDialogEdit = (funcionario) => {
+    closeDialog();
+    navigate(`/funcionario/edit/${funcionario.id}`);
+  };
 
   const onSubmit = (data) => console.log('Dados do funcionário:', data);
   const handleCancel = () => navigate('/funcionarios');
@@ -58,6 +80,17 @@ const FuncionarioForm = () => {
               error={!!errors.cpf} helperText={errors.cpf?.message}
               inputProps={{ maxLength: 14, title: 'CPF do funcionário', placeholder: '000.000.000-00' }}
               onChange={(e) => field.onChange(maskCPF(e.target.value))}
+              onBlur={() => {
+                if (!isReadOnly) {
+                  validateCpf(field.value);
+                }
+              }}
+              inputProps={{
+                maxLength: 14,
+                title: 'CPF do funcionário',
+                placeholder: '000.000.000-00',
+                readOnly: !!cpfDialog.value
+              }}
             />
           )}
         />
@@ -131,6 +164,17 @@ const FuncionarioForm = () => {
           <Button onClick={handleCancel}>Cancelar</Button>
           <Button type="submit" variant="contained">Cadastrar</Button>
         </Box>
+
+        {/* Diálogo de CPF existente - Componente Reutilizável */}
+        <UniqueValidator
+          open={cpfDialog.open}
+          onClose={handleDialogCancel}
+          existingRecord={cpfDialog.record}
+          recordType="funcionário"
+          onView={handleDialogView}
+          onEdit={handleDialogEdit}
+        />
+
       </Box>
     </PageLayout>
   );
