@@ -1,8 +1,8 @@
 import { Box, IconButton } from '@mui/material';
 import { Edit, Delete, Visibility } from '@mui/icons-material';
 
-const ActionButtons = ({ item, onView, onEdit, onDelete }) => (
-  <Box sx={{ display: 'flex', gap: 1 }}>
+const ActionButtons = ({ item, onView, onEdit, onDelete, children }) => (
+  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
     <IconButton
       size="small"
       color="primary"
@@ -32,6 +32,9 @@ const ActionButtons = ({ item, onView, onEdit, onDelete }) => (
     >
       <Delete fontSize="small" />
     </IconButton>
+
+    {/* Botões extras específicos de cada tela (ex: Adicionar Consumo, Cancelar) */}
+    {children}
   </Box>
 );
 

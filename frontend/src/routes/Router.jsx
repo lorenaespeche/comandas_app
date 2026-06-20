@@ -15,6 +15,13 @@ const ProdutoListPublic = lazy(() => import("../pages/ProdutoListPublic"));
 const ProdutoForm = lazy(() => import("../pages/ProdutoForm"));
 const LoginForm = lazy(() => import("../components/forms/LoginForm"));
 const NotFound = lazy(() => import("../pages/NotFound"));
+const ComandaList = lazy(() => import("../pages/ComandaList"));
+const ComandaForm = lazy(() => import("../pages/ComandaForm"));
+const ComandaConsumoForm = lazy(() => import("../pages/ComandaConsumoForm"));
+const CaixaDashboard = lazy(() => import("../pages/CaixaDashboard"));
+const CaixaDetalhe = lazy(() => import("../pages/CaixaDetalhe"));
+const CaixaRecebimento = lazy(() => import("../pages/CaixaRecebimento"));
+const CaixaComprovante = lazy(() => import("../pages/CaixaComprovante"));
 
 const Loading = () => <div>Carregando...</div>;
 
@@ -41,6 +48,16 @@ const AppRoutes = () => {
         <Route path="/funcionario" element={<PrivateRoute><FuncionarioForm /></PrivateRoute>} />
         <Route path="/clientes" element={<PrivateRoute><ClienteList /></PrivateRoute>} />
         <Route path="/cliente" element={<PrivateRoute><ClienteForm /></PrivateRoute>} />
+        <Route path="/comandas" element={<PrivateRoute><ComandaList /></PrivateRoute>} />
+        <Route path="/comanda" element={<PrivateRoute><ComandaForm /></PrivateRoute>} />
+        <Route path="/comanda/:opr/:id" element={<PrivateRoute><ComandaForm /></PrivateRoute>} />
+        <Route path="/comanda/consumo/:id" element={<PrivateRoute><ComandaConsumoForm /></PrivateRoute>} />
+
+        {/* Rotas do Caixa - Avaliação 03 */}
+        <Route path="/caixa" element={<PrivateRoute><CaixaDashboard /></PrivateRoute>} />
+        <Route path="/caixa/detalhe/:ids" element={<PrivateRoute><CaixaDetalhe /></PrivateRoute>} />
+        <Route path="/caixa/recebimento/:ids" element={<PrivateRoute><CaixaRecebimento /></PrivateRoute>} />
+        <Route path="/caixa/comprovante/:id" element={<PrivateRoute><CaixaComprovante /></PrivateRoute>} />
 
         {/* Rota para páginas não encontradas */}
         <Route path="*" element={<NotFound />} />

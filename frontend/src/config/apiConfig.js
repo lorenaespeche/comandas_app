@@ -51,6 +51,9 @@ const API_ENDPOINTS = {
     DETALHE: '/recebimento/comandas/detalhe/:ids', // GET - detalhar comandas
     RECEBER: '/recebimento/completo', // POST - processar recebimento
     COMPROVANTE: '/recebimento/comprovante/:id', // GET - gerar comprovante
+    LIST: '/recebimento/', // GET - listar recebimentos
+    GET: '/recebimento/:id', // GET - buscar por id
+    DELETE: '/recebimento/:id', // DELETE - remover
   },
 
   AUDITORIA: {
